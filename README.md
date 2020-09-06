@@ -5,4 +5,4 @@ Really looking forward to learn some proper development technique. <br>
 Wish me a lot of luck :)
 
 # UML
-!(Image)[https://github.com/cato447/WizardSkill/blob/master/UML/WizardSkillDiagram.png]
+![Image](https://github.com/cato447/WizardSkill/blob/master/UML/WizardSkillDiagram.png)
