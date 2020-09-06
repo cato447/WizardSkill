@@ -3,3 +3,5 @@ I develop a Skill for the Amazon Alexa in which you can play the card game Wizar
 This is the first time I'm touching "real development" (maven etc...). <br> 
 Really looking forward to learn some proper development technique. <br>
 Wish me a lot of luck :)
+
+#UML
