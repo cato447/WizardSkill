@@ -9,7 +9,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 
 import com.amazon.ask.model.Response;
 
-public class CancelandStopIntentHandler implements RequestHandler {
+public class CancelAndStopIntentHandler implements RequestHandler {
 
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName("AMAZON.StopIntent").or(intentName("AMAZON.CancelIntent")));

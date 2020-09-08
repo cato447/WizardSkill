@@ -11,7 +11,7 @@ public class HelloWorldStreamHandler extends SkillStreamHandler {
     private static Skill getSkill(){
        return Skills.standard()
                .addRequestHandlers(
-                       new CancelandStopIntentHandler(),
+                       new CancelAndStopIntentHandler(),
                        new HelloWorldIntentHandler(),
                        new HelpIntentHandler(),
                        new LaunchRequestHandler(),
