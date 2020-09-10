@@ -88,7 +88,6 @@ public class Game {
 
     private void newRound(){
         round++;
-        System.out.println();
         System.out.println("----- ROUND " + round + " -----");
         for (Player p: players) {
             p.clearHand();
@@ -124,7 +123,12 @@ public class Game {
     private void winningProcess(){
         int highestCardIndex = -1;
         for (int i = 0; i < pickedCards.size(); i++) {
-            
+            if (pickedCards.get(i).getCardValue().getIndex() == 14){
+                players.get(i).setTimesWon(players.get(i).getTimesWon()+1);
+            }
+            if (pickedCards.get(i).getCardType().getIndex() == leadingType){
+                
+            }
         }
     }
 
