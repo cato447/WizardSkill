@@ -22,4 +22,5 @@ public class CancelAndStopIntentHandler implements RequestHandler {
                 .withSimpleCard("HelloWorld", speechText)
                 .build();
     }
+
 }
