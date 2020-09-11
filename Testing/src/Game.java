@@ -3,7 +3,6 @@ import Cards.CardDeck;
 import Cards.CardType;
 import Participant.AI;
 import Participant.Player;
-import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -33,6 +32,24 @@ public class Game {
         game.control();
     }
 
+    private void control(){
+        while(round <= 60/players.size()){
+            dealCards();
+            printLeadingType();
+            players.get(0).displayHand();
+            makePredictions();
+            System.out.println();
+            while (players.get(0).getHand().size() != 0) {
+                pickCards();
+                printPickedCards();
+                winningProcess();
+                pickedCards.clear();
+            }
+            displayPoints();
+            newRound();
+        }
+    }
+
     private void generatePlayers(){
         System.out.println("WELCOME TO THE GAME OF WIZARD!");
         System.out.println("What is you name?");
@@ -48,25 +65,6 @@ public class Game {
         }
 
         System.out.println("----- ROUND 1 -----");
-    }
-
-    private void control(){
-        while(round <= 60/players.size()){
-            dealCards();
-
-            printLeadingType();
-            players.get(0).displayHand();
-
-            makePredictions();
-            System.out.println();
-
-            while (players.get(0).getHand().size() != 0) {
-                pickCards();
-                printPickedCards();
-                System.out.println();
-            }
-            newRound();
-        }
     }
 
     private void dealCards(){
@@ -86,12 +84,8 @@ public class Game {
         }
     }
 
-    private void newRound(){
-        round++;
-        System.out.println("----- ROUND " + round + " -----");
-        for (Player p: players) {
-            p.clearHand();
-        }
+    private void printLeadingType(){
+        System.out.println("Trumpffarbe: " + CardType.values()[leadingType]);
     }
 
     private void makePredictions(){
@@ -108,30 +102,63 @@ public class Game {
         }
     }
 
-    private void printLeadingType(){
-        System.out.println("Trumpffarbe: " + CardType.values()[leadingType]);
-    }
-
     private void printPickedCards(){
         System.out.print("Gewählte Karten: ");
         for (Card c: pickedCards) {
             System.out.print(c.getName() +"; ");
         }
-        pickedCards.clear();
     }
 
     private void winningProcess(){
         int highestCardIndex = -1;
+        int highestCardValue = 0;
         for (int i = 0; i < pickedCards.size(); i++) {
-            if (pickedCards.get(i).getCardValue().getIndex() == 14){
-                players.get(i).setTimesWon(players.get(i).getTimesWon()+1);
-            }
-            if (pickedCards.get(i).getCardType().getIndex() == leadingType){
-                
+            int cardValue = pickedCards.get(i).getCardValue().getIndex();
+            int cardType = pickedCards.get(i).getCardType().getIndex();
+
+            if (cardValue == 14){
+                highestCardIndex = i;
+                break;
+            } else if (cardType == leadingType){
+                if ((cardValue+13) > highestCardValue){
+                    highestCardIndex = i;
+                    highestCardValue = cardValue+13;
+                }
+            } else if(cardValue > highestCardValue){
+                highestCardIndex = i;
+                highestCardValue = cardValue;
+            } else if (cardValue == 0){
+                highestCardIndex = i;
             }
         }
+        players.get(highestCardIndex).setTimesWon(players.get(highestCardIndex).getTimesWon()+1);
+        System.out.println();
+        System.out.println("Winner: " + players.get(highestCardIndex).getName());
     }
 
+    private void displayPoints(){
+        givePoints();
+        for (Player p: players) {
+            System.out.print(p.getName()+": "+ p.getPoints()+"; ");
+            p.setTimesWon(0);
+        }
+        System.out.println();
+    }
 
-
+    private void givePoints(){
+        for (Player p: players) {
+            int points = 0;
+            points += (p.getTimesWon() * 10);
+            points -= (Math.abs(p.getPrediction()-p.getTimesWon())*10);
+            if (p.getTimesWon() == p.getPrediction()){
+                points += 20;
+            }
+            p.addPoints(points);
+        }
+    }
+    private void newRound(){
+        round++;
+        System.out.println();
+        System.out.println("----- ROUND " + round + " -----");
+    }
 }
